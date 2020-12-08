@@ -1,5 +1,5 @@
 <template>
-    Todo
+    <Header />
 
     <!-- Add dynamic number -->
     items left All Active Completed Clear Completed Drag and drop to reorder
@@ -15,12 +15,32 @@
     </div>
 </template>
 
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import Header from "./components/Header.vue";
+
+@Options({
+    components: {
+        Header,
+    },
+})
+export default class App extends Vue {}
+</script>
+
 <style lang="scss">
 #app {
     @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
+    @import "/sass/styles.scss";
 
     font-family: "Josefin Sans", sans-serif;
     font-size: 18px;
+
+    @media #{$information-mobile} {
+        padding: 6vh 6vw;
+    }
+    @media #{$information-desktop} {
+        padding: 10vh 31vw;
+    }
 }
 </style>
 
