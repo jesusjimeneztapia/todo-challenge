@@ -1,8 +1,15 @@
 <template>
-    Todo component
+    <CreateToDo />
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
+import CreateToDo from "@/components/CreateToDo.vue";
+
+@Options({
+    components: {
+        CreateToDo,
+    },
+})
 export default class ToDo extends Vue {}
 </script>
