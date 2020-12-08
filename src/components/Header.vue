@@ -1,5 +1,5 @@
 <template>
-    <header class="header light">
+    <header class="header" :class="theme">
         <div class="header-bg">
             <div class="header-bg-mobile">
                 <img
@@ -33,11 +33,13 @@
                 id="icon-moon"
                 src="../assets/images/icon-moon.svg"
                 alt="Icon moon"
+                @click="setTheme()"
             />
             <img
                 id="icon-sun"
                 src="../assets/images/icon-sun.svg"
                 alt="Icon sun"
+                @click="setTheme()"
             />
         </div>
     </header>
@@ -45,7 +47,20 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { mapState } from "vuex";
+import store from "../store";
 
+@Options({
+    computed: {
+        ...mapState(["theme"]),
+    },
+    methods: {
+        async setTheme() {
+            await store.dispatch("setTheme");
+            localStorage.setItem("theme", store.state.theme);
+        },
+    },
+})
 export default class Header extends Vue {}
 </script>
 
@@ -60,6 +75,9 @@ export default class Header extends Vue {}
         left: 0;
         width: 100%;
         z-index: -1;
+
+        animation-name: opacity32-100;
+        animation-duration: 1s;
     }
 
     &-bg {
@@ -84,6 +102,9 @@ export default class Header extends Vue {}
             color: $lt-very-light-gray;
             margin: 0px 0px;
             text-transform: uppercase;
+
+            animation-name: center-header;
+            animation-duration: 1s;
         }
 
         &-title {
@@ -95,6 +116,14 @@ export default class Header extends Vue {}
                 font-size: 2em;
                 letter-spacing: 0.56em;
             }
+        }
+
+        img {
+            animation-name: center-header;
+            animation-duration: 1s;
+        }
+        img:hover {
+            cursor: pointer;
         }
     }
 
@@ -113,6 +142,19 @@ export default class Header extends Vue {}
         div > #icon-sun {
             display: none;
         }
+    }
+}
+@keyframes opacity32-100 {
+    from {
+        opacity: 32%;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+@keyframes center-header {
+    from {
+        margin: 0px -6vw;
     }
 }
 </style>

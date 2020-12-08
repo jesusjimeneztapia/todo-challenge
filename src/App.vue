@@ -17,11 +17,22 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Header from "./components/Header.vue";
+import Header from "@/components/Header.vue";
+import store from "./store";
 
 @Options({
     components: {
         Header,
+    },
+    beforeMount() {
+        const appTheme: string | null = localStorage.getItem("theme");
+        if (appTheme) {
+            if (appTheme !== store.state.theme) {
+                store.dispatch("setTheme");
+            }
+        } else {
+            localStorage.setItem("theme", store.state.theme);
+        }
     },
 })
 export default class App extends Vue {}
