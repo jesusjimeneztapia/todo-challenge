@@ -1,6 +1,7 @@
 <template>
     <Header />
 
+    <ToDo />
     <!-- Add dynamic number -->
     items left All Active Completed Clear Completed Drag and drop to reorder
     list
@@ -18,11 +19,13 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Header from "@/components/Header.vue";
+import ToDo from "@/components/ToDo.vue";
 import store from "./store";
 
 @Options({
     components: {
         Header,
+        ToDo,
     },
     beforeMount() {
         const appTheme: string | null = localStorage.getItem("theme");
