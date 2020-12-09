@@ -2,7 +2,7 @@
     <div class="background" :class="theme" />
     <Header />
 
-    <ToDo />
+    <to-do />
     <!-- Add dynamic number -->
     items left All Active Completed Clear Completed Drag and drop to reorder
     list
