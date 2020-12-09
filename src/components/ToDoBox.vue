@@ -1,10 +1,10 @@
 <template>
-    <div v-if="input" class="box border-radius">
+    <div v-if="input" class="box border-radius" :class="theme">
         <input class="box-check" id="check" type="checkbox" />
         <label class="box-label" for="check" />
         <input class="box-input" placeholder="Create a new todo..." />
     </div>
-    <div v-else class="box border-bottom">
+    <div v-else class="box border-bottom" :class="theme">
         <input
             class="box-check"
             :id="check"
@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { mapState } from "vuex";
 
 @Options({
     props: {
@@ -32,6 +33,9 @@ import { Options, Vue } from "vue-class-component";
         check: String,
         completed: Boolean,
         text: String,
+    },
+    computed: {
+        ...mapState(["theme"]),
     },
     methods: {
         removeToDo(id: string) {
@@ -51,12 +55,10 @@ export default class ToDoBox extends Vue {
 @import "../sass/styles.scss";
 
 .box {
-    background-color: $lt-very-light-gray;
-
     &-label,
     & div > &-label {
         border-radius: 50%;
-        border: 1px solid $lt-very-light-grayish-blue;
+        border: 1px solid $lt-light-grayish-blue;
 
         &:hover {
             cursor: pointer;
@@ -76,10 +78,6 @@ export default class ToDoBox extends Vue {
     &-check {
         display: none;
 
-        &:checked + div > p {
-            color: $lt-dark-grayish-blue;
-            text-decoration: line-through;
-        }
         &:checked + div > label,
         &:checked + label {
             background-image: url("../assets/images/icon-check.svg"),
@@ -95,11 +93,9 @@ export default class ToDoBox extends Vue {
     &-input,
     &-text {
         border: none;
-        background-color: $lt-very-light-gray;
         font-weight: 400;
         width: 100%;
         caret-color: $bright-blue;
-        color: $lt-very-dark-grayish-blue;
 
         &:focus {
             outline: none;
@@ -142,6 +138,39 @@ export default class ToDoBox extends Vue {
         }
     }
 
+    &.light {
+        background-color: $lt-very-light-gray;
+
+        .box-check {
+            &:checked + div > p {
+                color: $lt-dark-grayish-blue;
+                text-decoration: line-through;
+            }
+        }
+
+        .box-input,
+        .box-text {
+            color: $lt-very-dark-grayish-blue;
+            background-color: $lt-very-light-gray;
+        }
+    }
+    &.dark {
+        background-color: $dt-very-dark-desaturated-blue;
+
+        .box-check {
+            &:checked + div > p {
+                color: $dt-dark-grayish-blue;
+                text-decoration: line-through;
+            }
+        }
+
+        .box-input,
+        .box-text {
+            color: $dt-light-grayish-blue;
+            background-color: $dt-very-dark-desaturated-blue;
+        }
+    }
+
     @media #{$information-mobile} {
         padding: 0.8em 1.2em;
     }
@@ -155,7 +184,12 @@ export default class ToDoBox extends Vue {
 }
 
 .border-bottom {
-    border-bottom: 1px solid $lt-light-grayish-blue;
+    &.light {
+        border-bottom: 1px solid $lt-light-grayish-blue;
+    }
+    &.dark {
+        border-bottom: 1px solid $dt-very-dark-grayish-blue-two;
+    }
 }
 
 @keyframes check {

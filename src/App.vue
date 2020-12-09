@@ -1,4 +1,5 @@
 <template>
+    <div class="background" :class="theme" />
     <Header />
 
     <ToDo />
@@ -17,15 +18,19 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, setup, Vue } from "vue-class-component";
 import Header from "@/components/Header.vue";
 import ToDo from "@/components/ToDo.vue";
 import store from "./store";
+import { mapState } from "vuex";
 
 @Options({
     components: {
         Header,
         ToDo,
+    },
+    computed: {
+        ...mapState(["theme"]),
     },
     beforeMount() {
         const appTheme: string | null = localStorage.getItem("theme");
@@ -48,6 +53,22 @@ export default class App extends Vue {}
 
     font-family: "Josefin Sans", sans-serif;
     font-size: 18px;
+
+    .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+
+        &.light {
+            background-color: $lt-very-light-grayish-blue;
+        }
+        &.dark {
+            background-color: $dt-very-dark-blue;
+        }
+    }
 
     @media #{$information-mobile} {
         padding: 6vh 6vw;
