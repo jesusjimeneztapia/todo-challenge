@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
 // Primary colors
 $bright-blue: hsl(220, 98%, 61%);
-$check-background: linear-gradient(hsl(192, 100%, 67%) to hsl(280, 87%, 65%));
+$check-background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
 
 // Neutral colors
 
@@ -24,7 +24,6 @@ $dt-very-dark-grayish-blue: hsl(233, 14%, 35%);
 $dt-very-dark-grayish-blue: hsl(237, 14%, 26%);
 
 // Screens
-
 // Mobile
 $information-mobile: "(max-width: 719px)";
 // Desktop
