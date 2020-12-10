@@ -1,14 +1,21 @@
 <template>
-    <footer class="footer">
+    <footer class="footer" :class="theme">
         <div class="footer-body">
             <section class="footer-body-items">
                 <!-- Add dynamic number -->
                 <h6>5 items left</h6>
             </section>
             <div class="footer-body-classification">
-                <p>All</p>
-                <p>Active</p>
-                <p>Completed</p>
+                <p :class="isActivated('all')" @click="setLink('all')">All</p>
+                <p :class="isActivated('active')" @click="setLink('active')">
+                    Active
+                </p>
+                <p
+                    :class="isActivated('completed')"
+                    @click="setLink('completed')"
+                >
+                    Completed
+                </p>
             </div>
             <section class="footer-body-clear">
                 <h6>Clear Completed</h6>
@@ -19,7 +26,27 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
+import { mapState } from "vuex";
+import store from "@/store";
+
+@Options({
+    computed: {
+        ...mapState(["theme"]),
+    },
+    methods: {
+        isActivated(nameLink: string) {
+            if (store.state.link === nameLink) {
+                return "active";
+            } else {
+                return "";
+            }
+        },
+        setLink(nameLink: string) {
+            store.dispatch("setLink", nameLink);
+        },
+    },
+})
 export default class Footer extends Vue {}
 </script>
 
@@ -28,6 +55,7 @@ export default class Footer extends Vue {}
 
 .footer {
     color: $lt-dark-grayish-blue;
+
     h6 {
         font-weight: 400;
     }
@@ -35,12 +63,6 @@ export default class Footer extends Vue {}
     &-body {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-
-        &-items,
-        &-clear,
-        &-classification {
-            background: $lt-very-light-gray;
-        }
 
         &-items {
             border-radius: 0px 0px 0px 0.4em;
@@ -54,6 +76,12 @@ export default class Footer extends Vue {}
             display: flex;
             justify-content: space-evenly;
             align-items: center;
+
+            p {
+                &.active {
+                    color: $bright-blue;
+                }
+            }
         }
 
         @media #{$information-mobile} {
@@ -75,8 +103,7 @@ export default class Footer extends Vue {}
                     width: 200%;
                     height: 0.8em;
                     left: 0;
-                    background-color: $lt-light-grayish-blue;
-                    border-radius: 0px 0px 0px 0.4em;
+                    border-radius: 0px 0px 0.4em 0.4em;
                     filter: blur(0.6em);
                     top: calc(100% - 0.4em);
                     z-index: -1;
@@ -91,10 +118,6 @@ export default class Footer extends Vue {}
                 grid-area: 2 / 1 / 3 / 5;
                 font-weight: 700;
                 padding: 0.8em 16vw;
-
-                box-shadow: 0px 1em 4em $lt-light-grayish-blue,
-                    0px 2em 8em $lt-light-grayish-blue,
-                    0px 2em 16em $lt-light-grayish-blue;
 
                 p {
                     margin: 0px 0px;
@@ -118,7 +141,6 @@ export default class Footer extends Vue {}
                     width: 400%;
                     top: calc(100% - 0.4em);
                     left: 0;
-                    background-color: $lt-light-grayish-blue;
                     border-radius: 0px 0px 0.4em 0.4em;
                     filter: blur(1em);
                     z-index: -1;
@@ -128,7 +150,6 @@ export default class Footer extends Vue {}
                 padding-right: 1.2em;
 
                 &:hover {
-                    color: $lt-very-dark-grayish-blue;
                     cursor: pointer;
                 }
             }
@@ -145,7 +166,6 @@ export default class Footer extends Vue {}
                     margin: 0px 0px;
 
                     &:hover {
-                        color: $lt-very-dark-grayish-blue;
                         cursor: pointer;
                     }
                 }
@@ -158,9 +178,35 @@ export default class Footer extends Vue {}
             }
         }
     }
-
     &-information {
         text-align: center;
+    }
+
+    &.light {
+        .footer-body-items,
+        .footer-body-clear,
+        .footer-body-classification {
+            background: $lt-very-light-gray;
+        }
+
+        .footer-body-items {
+            &::before {
+                background-color: $lt-light-grayish-blue;
+            }
+        }
+    }
+    &.dark {
+        .footer-body-items,
+        .footer-body-clear,
+        .footer-body-classification {
+            background: $dt-very-dark-desaturated-blue;
+        }
+
+        .footer-body-items {
+            &::before {
+                background-color: $dt-very-dark-blue;
+            }
+        }
     }
 
     @media #{$information-mobile} {
@@ -168,11 +214,35 @@ export default class Footer extends Vue {}
         &-body-classification {
             font-size: 0.8em;
         }
-
         &-information {
             margin: 0px 0px;
             padding-top: 4em;
             padding-bottom: 1em;
+        }
+
+        &.light {
+            .footer-body-classification {
+                box-shadow: 0px 1em 4em $lt-light-grayish-blue,
+                    0px 2em 8em $lt-light-grayish-blue,
+                    0px 2em 16em $lt-light-grayish-blue;
+            }
+            .footer-body-clear {
+                &:active {
+                    color: $lt-very-dark-grayish-blue;
+                }
+            }
+        }
+        &.dark {
+            .footer-body-classification {
+                box-shadow: 0px 1em 4em $dt-very-dark-blue,
+                    0px 2em 8em $dt-very-dark-blue,
+                    0px 2em 16em $dt-very-dark-blue;
+            }
+            .footer-body-clear {
+                &:active {
+                    color: $dt-hover-light-grayish-blue;
+                }
+            }
         }
     }
     @media #{$information-desktop} {
@@ -180,11 +250,39 @@ export default class Footer extends Vue {}
         &-body-classification {
             font-size: 0.9em;
         }
-
         &-information {
             margin: 0px 0px;
             padding-top: 2em;
             padding-bottom: 1em;
+        }
+
+        &.light {
+            .footer-body-clear {
+                &:hover {
+                    color: $lt-very-dark-grayish-blue;
+                }
+            }
+            .footer-body-classification {
+                p {
+                    &:hover {
+                        color: $lt-very-dark-grayish-blue;
+                    }
+                }
+            }
+        }
+        &.dark {
+            .footer-body-clear {
+                &:hover {
+                    color: $dt-hover-light-grayish-blue;
+                }
+            }
+            .footer-body-classification {
+                p {
+                    &:hover {
+                        color: $dt-hover-light-grayish-blue;
+                    }
+                }
+            }
         }
     }
 }
