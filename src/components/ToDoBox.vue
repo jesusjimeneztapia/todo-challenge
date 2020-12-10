@@ -175,7 +175,7 @@ export default class ToDoBox extends Vue {
         padding: 0.8em 1.2em;
     }
     @media #{$information-desktop} {
-        padding: 1.2em 1.2em;
+        padding: 1em 1.2em;
     }
 }
 

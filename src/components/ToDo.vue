@@ -2,6 +2,7 @@
     <div class="container">
         <create-to-do />
         <to-do-list />
+        <Footer />
     </div>
 </template>
 
@@ -9,11 +10,13 @@
 import { Options, Vue } from "vue-class-component";
 import CreateToDo from "@/components/CreateToDo.vue";
 import ToDoList from "@/components/ToDoList.vue";
+import Footer from "@/components/Footer.vue";
 
 @Options({
     components: {
         CreateToDo,
         ToDoList,
+        Footer,
     },
 })
 export default class ToDo extends Vue {}
@@ -24,10 +27,10 @@ export default class ToDo extends Vue {}
 
 .container {
     @media #{$information-mobile} {
-        padding: 1.8em 0px;
+        padding-top: 1.8em;
     }
     @media #{$information-desktop} {
-        padding: 2.4em 0px;
+        padding-top: 2.4em;
     }
 }
 </style>

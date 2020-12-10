@@ -1,11 +1,7 @@
 <template>
     <div class="background" :class="theme" />
     <Header />
-
     <to-do />
-    <!-- Add dynamic number -->
-    items left All Active Completed Clear Completed Drag and drop to reorder
-    list
 
     <div class="attribution">
         Challenge by
@@ -71,10 +67,10 @@ export default class App extends Vue {}
     }
 
     @media #{$information-mobile} {
-        padding: 6vh 6vw;
+        padding: 6vh 6vw 0px 6vw;
     }
     @media #{$information-desktop} {
-        padding: 10vh 31vw;
+        padding: 10vh 31vw 0px 31vw;
     }
 }
 </style>
