@@ -1,3 +1,3 @@
-import { InterfaceItem, Item } from "./Item";
+import Item from "./Item";
 
-export { InterfaceItem, Item };
+export { Item };

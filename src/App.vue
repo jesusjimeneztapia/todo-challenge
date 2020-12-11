@@ -19,7 +19,7 @@ import Header from "@/components/Header.vue";
 import ToDo from "@/components/ToDo.vue";
 import store from "./store";
 import { mapState } from "vuex";
-import { InterfaceItem, Item } from "./models";
+import { Item } from "./models";
 
 @Options({
     components: {
