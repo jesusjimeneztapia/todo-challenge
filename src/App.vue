@@ -19,6 +19,7 @@ import Header from "@/components/Header.vue";
 import ToDo from "@/components/ToDo.vue";
 import store from "./store";
 import { mapState } from "vuex";
+import { InterfaceItem, Item } from "./models";
 
 @Options({
     components: {
@@ -34,8 +35,40 @@ import { mapState } from "vuex";
             if (appTheme !== store.state.theme) {
                 store.dispatch("setTheme");
             }
+            let items: string | null | Item[] = localStorage.getItem("items");
+            if (items) {
+                items = JSON.parse(items) as [Item];
+                items = items.map(({ id, text, active }) => {
+                    return new Item(id, text, active);
+                });
+                store.dispatch("setItems", items);
+            }
         } else {
             localStorage.setItem("theme", store.state.theme);
+            const itemList: Item[] = [];
+            let item = new Item(
+                "todo1",
+                "Complete online JavaScript course",
+                false
+            );
+            itemList.push(item);
+            item = new Item("todo2", "Jog around the park 3x", true);
+            itemList.push(item);
+            item = new Item("todo3", "10 minutes meditation", true);
+            itemList.push(item);
+            item = new Item("todo4", "Read for 1 hour", true);
+            itemList.push(item);
+            item = new Item("todo5", "Pick up groceries", true);
+            itemList.push(item);
+            item = new Item(
+                "todo6",
+                "Complete Todo App on Frontend Mentor",
+                true
+            );
+            itemList.push(item);
+
+            localStorage.setItem("items", JSON.stringify(itemList));
+            store.dispatch("setItems", itemList);
         }
     },
 })

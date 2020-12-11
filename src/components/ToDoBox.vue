@@ -10,12 +10,13 @@
             :id="check"
             type="checkbox"
             :checked="completed"
+            @change="setItem(item)"
         />
         <div>
             <label class="box-label" :for="check" />
             <p class="box-text">{{ text }}</p>
             <img
-                @click="removeToDo(check)"
+                @click="removeToDo(item)"
                 src="../assets/images/icon-cross.svg"
                 alt="Icon cross"
             />
@@ -24,6 +25,9 @@
 </template>
 
 <script lang="ts">
+import { Item } from "@/models";
+import store from "@/store";
+import { onMounted, onUpdated } from "vue";
 import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
 
@@ -33,13 +37,17 @@ import { mapState } from "vuex";
         check: String,
         completed: Boolean,
         text: String,
+        item: Item,
     },
     computed: {
-        ...mapState(["theme"]),
+        ...mapState(["theme", "items"]),
     },
     methods: {
-        removeToDo(id: string) {
-            console.log(id);
+        removeToDo(item: Item) {
+            store.dispatch("removeItem", item);
+        },
+        setItem(item: Item) {
+            store.dispatch("setItemActive", item);
         },
     },
 })
@@ -48,6 +56,7 @@ export default class ToDoBox extends Vue {
     check: string = "";
     completed: boolean = false;
     text: string = "";
+    item: Item | null = null;
 }
 </script>
 

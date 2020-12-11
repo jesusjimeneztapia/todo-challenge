@@ -1,9 +1,12 @@
+import { saveLocalStorage } from "@/utils";
 import { createStore } from "vuex";
+import { Item } from "../models";
 
 export default createStore({
     state: {
         theme: "light",
         link: "all",
+        items: [Item],
     },
     mutations: {
         setTheme(state) {
@@ -16,6 +19,24 @@ export default createStore({
         setLink(state, link) {
             state.link = link;
         },
+        setItems(state, items) {
+            state.items = items;
+        },
+        setItemActive(state, item) {
+            let i = state.items.find((it) => it === item);
+            if (i instanceof Item) {
+                let listItem = i as Item;
+                listItem.setActive();
+                saveLocalStorage(state.items);
+            }
+        },
+        removeItem(state, item) {
+            const index: number = state.items.indexOf(item);
+            if (index !== -1) {
+                state.items.splice(index, 1);
+                saveLocalStorage(state.items);
+            }
+        },
     },
     actions: {
         setTheme(context) {
@@ -23,6 +44,15 @@ export default createStore({
         },
         setLink(context, link) {
             context.commit("setLink", link);
+        },
+        setItems(context, items) {
+            context.commit("setItems", items);
+        },
+        setItemActive(context, item) {
+            context.commit("setItemActive", item);
+        },
+        removeItem(context, item) {
+            context.commit("removeItem", item);
         },
     },
     modules: {},
