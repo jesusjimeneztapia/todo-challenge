@@ -1,7 +1,7 @@
 <template>
     <div class="todo-list" :class="getClass()">
         <to-do-box
-            v-for="item in items"
+            v-for="item in getItems()"
             :key="item.id"
             :check="item.id"
             :text="item.text"
@@ -16,17 +16,42 @@ import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
 import ToDoBox from "@/components/ToDoBox.vue";
 import store from "@/store";
+import { Item } from "@/models";
 
 @Options({
     components: {
         ToDoBox,
     },
-    computed: {
-        ...mapState(["items"]),
-    },
     methods: {
+        getItems() {
+            let items;
+            switch (store.state.link) {
+                case "all":
+                    items = store.state.items;
+                    break;
+                case "active":
+                    items = store.state.items.filter((i) => {
+                        if (i instanceof Item) {
+                            const item = i as Item;
+                            return item.active;
+                        }
+                        return false;
+                    });
+                    break;
+                default:
+                    items = store.state.items.filter((i) => {
+                        if (i instanceof Item) {
+                            const item = i as Item;
+                            return !item.active;
+                        }
+                        return false;
+                    });
+                    break;
+            }
+            return items;
+        },
         getClass() {
-            if (store.state.items.length === 0) {
+            if (this.getItems().length === 0) {
                 return "empty " + store.state.theme;
             }
         },
