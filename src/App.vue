@@ -2,21 +2,14 @@
     <div class="background" :class="theme" />
     <Header />
     <to-do />
-
-    <div class="attribution">
-        Challenge by
-        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
-            >Frontend Mentor</a
-        >. Coded by
-        <a href="https://github.com/RIGBY030898">Jesús Alberto Jimenez Tapia</a
-        >.
-    </div>
+    <attribution />
 </template>
 
 <script lang="ts">
 import { Options, setup, Vue } from "vue-class-component";
 import Header from "@/components/Header.vue";
 import ToDo from "@/components/ToDo.vue";
+import Attribution from "@/components/Attribution.vue";
 import store from "./store";
 import { mapState } from "vuex";
 import { Item } from "./models";
@@ -25,6 +18,7 @@ import { Item } from "./models";
     components: {
         Header,
         ToDo,
+        Attribution,
     },
     computed: {
         ...mapState(["theme"]),
