@@ -18,7 +18,7 @@
                 </p>
             </div>
             <section class="footer-body-clear">
-                <h6>Clear Completed</h6>
+                <h6 @click="clearCompleted()">Clear Completed</h6>
             </section>
         </div>
         <p class="footer-information">Drag and drop to reorder list</p>
@@ -44,6 +44,9 @@ import store from "@/store";
         },
         setLink(nameLink: string) {
             store.dispatch("setLink", nameLink);
+        },
+        clearCompleted() {
+            store.dispatch("clearCompleted");
         },
     },
 })

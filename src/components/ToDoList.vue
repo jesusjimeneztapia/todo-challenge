@@ -17,6 +17,7 @@ import { mapState } from "vuex";
 import ToDoBox from "@/components/ToDoBox.vue";
 import store from "@/store";
 import { Item } from "@/models";
+import { getItems as items } from "@/utils";
 
 @Options({
     components: {
@@ -24,31 +25,7 @@ import { Item } from "@/models";
     },
     methods: {
         getItems() {
-            let items;
-            switch (store.state.link) {
-                case "all":
-                    items = store.state.items;
-                    break;
-                case "active":
-                    items = store.state.items.filter((i) => {
-                        if (i instanceof Item) {
-                            const item = i as Item;
-                            return item.active;
-                        }
-                        return false;
-                    });
-                    break;
-                default:
-                    items = store.state.items.filter((i) => {
-                        if (i instanceof Item) {
-                            const item = i as Item;
-                            return !item.active;
-                        }
-                        return false;
-                    });
-                    break;
-            }
-            return items;
+            return items(store.state.link);
         },
         getClass() {
             if (this.getItems().length === 0) {

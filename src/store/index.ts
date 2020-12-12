@@ -1,4 +1,4 @@
-import { saveLocalStorage } from "@/utils";
+import { getItems, saveLocalStorage } from "@/utils";
 import { createStore } from "vuex";
 import { Item } from "../models";
 
@@ -37,6 +37,10 @@ export default createStore({
                 saveLocalStorage(state.items);
             }
         },
+        clearCompleted(state) {
+            state.items = getItems("active");
+            saveLocalStorage(state.items);
+        },
     },
     actions: {
         setTheme(context) {
@@ -53,6 +57,9 @@ export default createStore({
         },
         removeItem(context, item) {
             context.commit("removeItem", item);
+        },
+        clearCompleted(context) {
+            context.commit("clearCompleted");
         },
     },
     modules: {},
