@@ -69,6 +69,7 @@ import { Item } from "./models";
 
             localStorage.setItem("items", JSON.stringify(itemList));
             store.dispatch("setItems", itemList);
+            localStorage.setItem("itemId", `${itemList.length + 1}`);
         }
     },
 })

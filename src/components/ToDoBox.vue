@@ -1,8 +1,13 @@
 <template>
     <div v-if="input" class="box border-radius" :class="theme">
-        <input class="box-check" id="check" type="checkbox" />
+        <input class="box-check" id="check" type="checkbox" disabled />
         <label class="box-label" for="check" />
-        <input class="box-input" placeholder="Create a new todo..." />
+        <input
+            class="box-input"
+            placeholder="Create a new todo..."
+            v-model="newToDo"
+            @keyup.enter="createToDo"
+        />
     </div>
     <div v-else class="box border-bottom" :class="theme">
         <input
@@ -32,6 +37,11 @@ import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
 
 @Options({
+    data() {
+        return {
+            newToDo: "",
+        };
+    },
     props: {
         input: Boolean,
         check: String,
@@ -48,6 +58,24 @@ import { mapState } from "vuex";
         },
         setItem(item: Item) {
             store.dispatch("setItemActive", item);
+        },
+        createToDo() {
+            if (this.newToDo !== "") {
+                let itemId: number | string | null = localStorage.getItem(
+                    "itemId"
+                );
+                if (itemId) {
+                    itemId = parseInt(itemId);
+                    const item: Item = new Item(
+                        `todo${itemId}`,
+                        this.newToDo,
+                        true
+                    );
+                    store.dispatch("addItem", item);
+                    localStorage.setItem("itemId", `${itemId + 1}`);
+                    this.newToDo = "";
+                }
+            }
         },
     },
 })
