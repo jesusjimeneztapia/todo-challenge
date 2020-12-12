@@ -3,7 +3,7 @@
         <div class="footer-body">
             <section class="footer-body-items">
                 <!-- Add dynamic number -->
-                <h6>5 items left</h6>
+                <h6>{{ getItemsLeft() }} items left</h6>
             </section>
             <div class="footer-body-classification">
                 <p :class="isActivated('all')" @click="setLink('all')">All</p>
@@ -29,6 +29,7 @@
 import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
 import store from "@/store";
+import { getItems } from "@/utils";
 
 @Options({
     computed: {
@@ -47,6 +48,9 @@ import store from "@/store";
         },
         clearCompleted() {
             store.dispatch("clearCompleted");
+        },
+        getItemsLeft() {
+            return getItems("active").length;
         },
     },
 })
