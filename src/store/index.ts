@@ -45,6 +45,10 @@ export default createStore({
             state.items.push(item);
             saveLocalStorage(state.items);
         },
+        updateItems(state, items) {
+            state.items = items;
+            saveLocalStorage(state.items);
+        },
     },
     actions: {
         setTheme(context) {
@@ -67,6 +71,9 @@ export default createStore({
         },
         addItem(context, item) {
             context.commit("addItem", item);
+        },
+        updateItems(context, items) {
+            context.commit("updateItems", items);
         },
     },
     modules: {},

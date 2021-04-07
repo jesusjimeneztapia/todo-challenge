@@ -1,27 +1,58 @@
 <template>
-    <div class="todo-list" :class="getClass()">
-        <to-do-box
-            v-for="item in getItems()"
-            :key="item.id"
-            :check="item.id"
-            :text="item.text"
-            :completed="!item.active"
-            :item="item"
-        />
-    </div>
+    <template v-if="showDraggable()">
+        <draggable
+            class="todo-list"
+            :class="getClass()"
+            v-model="myList"
+            item-key="id"
+        >
+            <template #item="{element}">
+                <to-do-box
+                    :check="element.id"
+                    :text="element.text"
+                    :completed="!element.active"
+                    :item="element"
+                />
+            </template>
+        </draggable>
+    </template>
+    <template v-else>
+        <div class="todo-list" :class="getClass()">
+            <to-do-box
+                v-for="item in getItems()"
+                :key="item.id"
+                :check="item.id"
+                :text="item.text"
+                :completed="!item.active"
+                :item="item"
+            />
+        </div>
+    </template>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
+import draggable from "vuedraggable";
 import ToDoBox from "@/components/ToDoBox.vue";
 import store from "@/store";
 import { Item } from "@/models";
 import { getItems as items } from "@/utils";
 
 @Options({
+    computed: {
+        myList: {
+            get() {
+                return items(store.state.link);
+            },
+            set(value: any) {
+                store.dispatch("updateItems", value);
+            },
+        },
+    },
     components: {
         ToDoBox,
+        draggable,
     },
     methods: {
         getItems() {
@@ -31,6 +62,9 @@ import { getItems as items } from "@/utils";
             if (this.getItems().length === 0) {
                 return "empty " + store.state.theme;
             }
+        },
+        showDraggable() {
+            return store.state.link === "all";
         },
     },
 })

@@ -21,7 +21,9 @@
                 <h6 @click="clearCompleted()">Clear Completed</h6>
             </section>
         </div>
-        <p class="footer-information">Drag and drop to reorder list</p>
+        <template v-if="showInformation()">
+            <p class="footer-information">Drag and drop to reorder list</p>
+        </template>
     </footer>
 </template>
 
@@ -51,6 +53,9 @@ import { getItems } from "@/utils";
         },
         getItemsLeft() {
             return getItems("active").length;
+        },
+        showInformation() {
+            return store.state.link === "all";
         },
     },
 })
@@ -217,13 +222,16 @@ export default class Footer extends Vue {}
     }
 
     @media #{$information-mobile} {
-        &-information,
-        &-body-classification {
-            font-size: 0.8em;
+        &-body {
+            padding-bottom: 4em;
+
+            &-classification {
+                font-size: 0.8em;
+            }
         }
+        &-information,
         &-information {
             margin: 0px 0px;
-            padding-top: 4em;
             padding-bottom: 1em;
         }
 
@@ -253,13 +261,15 @@ export default class Footer extends Vue {}
         }
     }
     @media #{$information-desktop} {
-        &-information,
-        &-body-classification {
-            font-size: 0.9em;
+        &-body {
+            padding-bottom: 2em;
+            &-classification {
+                font-size: 0.9em;
+            }
         }
+        &-information,
         &-information {
             margin: 0px 0px;
-            padding-top: 2em;
             padding-bottom: 1em;
         }
 
